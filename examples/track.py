@@ -1,4 +1,7 @@
 # Mikel Broström 🔥 Yolo Tracking 🧾 AGPL-3.0 license
+import sys, os
+
+sys.path.append(os.path.dirname(os.path.abspath(os.path.dirname(__file__)))) 
 
 import argparse
 from functools import partial
@@ -20,7 +23,6 @@ from ultralytics.data.utils import VID_FORMATS
 from ultralytics.utils.plotting import save_one_box
 
 from examples.utils import write_mot_results
-
 
 def on_predict_start(predictor, persist=False):
     """
@@ -158,7 +160,7 @@ def parse_opt():
                         help='display tracking video results')
     parser.add_argument('--save', action='store_true',
                         help='save video tracking results')
-    # class 0 is person, 1 is bycicle, 2 is car... 79 is oven
+    # class 0 is fish
     parser.add_argument('--classes', nargs='+', type=int,
                         help='filter by class: --classes 0, or --classes 0 2 3')
     parser.add_argument('--project', default=ROOT / 'runs' / 'track',

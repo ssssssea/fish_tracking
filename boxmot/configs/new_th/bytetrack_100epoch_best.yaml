@@ -1,0 +1,6 @@
+# Trial number:      3
+# HOTA, MOTA, IDF1:  [63.949, 74.389, 74.089]
+conf: 0.3993926553908048
+match_thresh: 0.884700882422329
+track_buffer: 60
+track_thresh: 0.5007213615145532

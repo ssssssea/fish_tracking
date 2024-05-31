@@ -17,7 +17,7 @@ class YoloNASStrategy(YoloInterface):
     fp16 = False
     triton = False
     names = {
-        0: 'person', 1: 'bicycle', 2: 'car', 3: 'motorcycle', 4: 'airplane', 5: 'bus',
+        0: 'fish', 1: 'bicycle', 2: 'car', 3: 'motorcycle', 4: 'airplane', 5: 'bus',
         6: 'train', 7: 'truck', 8: 'boat', 9: 'traffic light', 10: 'fire hydrant',
         11: 'stop sign', 12: 'parking meter', 13: 'bench', 14: 'bird', 15: 'cat',
         16: 'dog', 17: 'horse', 18: 'sheep', 19: 'cow', 20: 'elephant',
@@ -40,18 +40,21 @@ class YoloNASStrategy(YoloInterface):
 
         avail_models = [x.lower() for x in list(Models.__dict__.keys())]
         model_type = self.get_model_from_weigths(avail_models, model)
-
+        print(avail_models, model)
         LOGGER.info(f'Loading {model_type} with {str(model)}')
         if not model.exists() and model.stem == model_type:
             LOGGER.info('Downloading pretrained weights...')
             self.model = models.get(
                 model_type,
-                pretrained_weights="coco"
+                pretrained_weights="coco",
+
             ).to(device)
         else:
+            model_type = "yolo_nas_m"
             self.model = models.get(
                 model_type,
-                num_classes=-1,  # set your num classes
+                num_classes= 1,  # set your num classes
+                
                 checkpoint_path=str(model)
             ).to(device)
 
@@ -66,7 +69,7 @@ class YoloNASStrategy(YoloInterface):
             preds = self.model.predict(
                 im,
                 iou=0.5,
-                conf=0.7,
+                conf=0.25,
                 fuse_model=False
             )[0].prediction
 
